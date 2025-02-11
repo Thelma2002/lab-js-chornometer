@@ -1,34 +1,63 @@
 class Chronometer {
   constructor() {
-    // ... your code goes here
+    //initialise properties
+    this.currentTime = 0;
+    this.intervalId = null;
   }
 
+    // The start method begins the timer and increments the currentTime property every second
   start(callback) {
-    // ... your code goes here
+    // Use setInterval to call a function every 1000 milliseconds (1 second)
+    this.intervalId = setInterval(() => {
+      this.currentTime += 1; // Increment the current time by 1 second
+
+      // If a callback function is provided, execute it
+      if (callback) {
+        callback();
+      }
+    }, 1000); // 1000 milliseconds = 1 second
   }
+
 
   getMinutes() {
-    // ... your code goes here
+    // Divide the current time (in seconds) by 60 to get the number of minutes,
+  // and use Math.floor to round down to the nearest whole number
+   return Math.floor(this.currentTime/60);
   }
 
   getSeconds() {
-    // ... your code goes here
+   // Use the modulo operator to get the remainder when dividing by 60
+  return this.currentTime % 60;
   }
 
   computeTwoDigitNumber(value) {
-    // ... your code goes here
+    // Convert the value to a string and pad with leading zero if necessary
+  return `0${value}`.slice(-2);
   }
 
   stop() {
-    // ... your code goes here
+    clearInterval(this.intervalId);
   }
 
   reset() {
-    // ... your code goes here
+    this.currentTime = 0;
+    document.getElementById('minDec').innerHTML = '0';
+    document.getElementById('minUni').innerHTML = '0';
+    document.getElementById('secDec').innerHTML = '0';
+    document.getElementById('secUni').innerHTML = '0';
+    document.getElementById('milDec').innerHTML = '0';
+    document.getElementById('milUni').innerHTML = '0';
   }
 
   split() {
-    // ... your code goes here
+    // Compute the two-digit string for minutes using the getMinutes and computeTwoDigitNumber methods
+    const minutes = this.computeTwoDigitNumber(this.getMinutes());
+    
+    // Compute the two-digit string for seconds using the getSeconds and computeTwoDigitNumber methods
+    const seconds = this.computeTwoDigitNumber(this.getSeconds());
+    
+    // Return the formatted time string in "mm:ss" format
+    return `${minutes}:${seconds}`;
   }
 }
 
